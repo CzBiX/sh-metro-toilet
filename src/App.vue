@@ -62,8 +62,8 @@ interface ToiletInfo {
 	place: string
 }
 
-function isOutside(toilet: ToiletInfo) {
-  return toilet.category !== '付费区'
+function isInside(toilet: ToiletInfo) {
+  return toilet.category === '付费区'
 }
 
 function useLines() {
@@ -130,12 +130,12 @@ function useToilets() {
     return getToilets(key)?.length > 0
   }
 
-  function getToiletIconClass(isOutside: boolean) {
-    return isOutside ? 'outside' : 'inside'
+  function getToiletIconClass(isInside: boolean) {
+    return isInside ? 'inside' : 'outside'
   }
 
   function getToiletIcon(toilet: ToiletInfo) {
-    return getToiletIconClass(isOutside(toilet))
+    return getToiletIconClass(isInside(toilet))
   }
 
   function getToiletIconForTitle(key: string) {
@@ -145,7 +145,7 @@ function useToilets() {
     }
 
     for (const toilet of toilets) {
-      if (!isOutside(toilet)) {
+      if (isInside(toilet)) {
         return getToiletIconClass(true)
       }
     }
