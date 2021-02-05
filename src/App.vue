@@ -1,6 +1,6 @@
 <template>
 <header>
-  <h1>上海地铁厕所查询</h1>
+  <h1>上海地铁卫生间</h1>
 </header>
 
 <main>
