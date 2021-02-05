@@ -22,7 +22,7 @@
       >
         <a :href="'#' + getStationId(key)">
           <span>{{ getStationName(key) }}</span>
-          <img v-if="hasToilets(key)" class="toilet-icon" :src="getToiletIconForTitle(key)" />
+          <i v-if="hasToilets(key)" class="toilet-icon" :class="getToiletIconForTitle(key)" />
         </a>
       </li>
     </ol>
@@ -31,7 +31,7 @@
         <p class="station-name">{{ getStationName(key) }}</p>
         <p class="toilet-section" v-for="(toilet, index) of getToilets(key)" :key="index">
           <span class="line-name">{{ toilet.line }}</span>
-          <img class="toilet-icon" :src="getToiletIcon(toilet)" />
+          <i class="toilet-icon" :class="getToiletIcon(toilet)" />
           <span class="category">{{ toilet.category }}</span><br/>
           <span class="place">{{ toilet.place }}</span>
         </p>
@@ -52,8 +52,6 @@ import { computed, defineComponent, ref } from 'vue'
 import { lines, stations } from './station-data'
 
 import { lastModified, toilets } from './toilet-data.json'
-import toiletIconUrl from './assets/toilet.png'
-import toiletOutsideIconUrl from './assets/toilet-outside.png'
 
 type LineKey = keyof typeof lines
 type ToiletKey = keyof typeof toilets
@@ -132,27 +130,27 @@ function useToilets() {
     return getToilets(key)?.length > 0
   }
 
-  function getToiletIconUrl(isOutside: boolean) {
-    return isOutside ? toiletOutsideIconUrl : toiletIconUrl
+  function getToiletIconClass(isOutside: boolean) {
+    return isOutside ? 'outside' : 'inside'
   }
 
   function getToiletIcon(toilet: ToiletInfo) {
-    return getToiletIconUrl(isOutside(toilet))
+    return getToiletIconClass(isOutside(toilet))
   }
 
   function getToiletIconForTitle(key: string) {
     const toilets = getToilets(key)
     if (!toilets || toilets.length === 0) {
-      return ''
+      return null
     }
 
     for (const toilet of toilets) {
       if (!isOutside(toilet)) {
-        return getToiletIconUrl(true)
+        return getToiletIconClass(true)
       }
     }
 
-    return getToiletIconUrl(false)
+    return getToiletIconClass(false)
   }
 
   const lastModifiedStr = new Date(lastModified).toLocaleString()
@@ -297,5 +295,16 @@ footer {
 
 .toilet-icon {
   vertical-align: top;
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+
+  &.inside {
+    background: url('./assets/toilet.png');
+  }
+
+  &.outside {
+    background: url('./assets/toilet-outside.png');
+  }
 }
 </style>
