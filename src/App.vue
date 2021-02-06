@@ -41,7 +41,7 @@
 </main>
 
 <footer>
-  <p>数据来源于<a ref="no-referrer" href="http://service.shmetro.com/i/cw.html">上海地铁</a></p>
+  <p>数据来源于<a rel="no-referrer" href="http://service.shmetro.com/i/cw.html">上海地铁</a></p>
   <p>最后更新时间：{{ lastModifiedStr }}</p>
   <p>信息仅供参考，请以实际为准</p>
 </footer>
